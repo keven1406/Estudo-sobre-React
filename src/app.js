@@ -1,31 +1,48 @@
 import { render } from 'react-dom'
 
-const inicio = prop => 
-	prop == 0 ? "--Inicio" : "Inicio"
-const dicas = prop => 
-	prop == 1 ? "--Dicas" : "Dicas"
+const formatDate = data =>
+		data.toLocaleTimeString()
 
-const Cabecalho = cab => (
-		<header>
-			<h1 style = {{fontSize: '40px', marginBottom: '0', marginTop: '-5px'}}>React</h1>
-			<h2 style={{color: 'red', marginTop: '0'}}>Uma biblioteca para criação de interfaces</h2>
-			<ul style = {{listStyle: 'none', display: 'flex', flexDirection: 'row'}}>
-				<li style={{marginRight: '10px'}}>
-					<a>
-						{inicio(cab.pagina)}
-					</a>
-				</li>
-				<li>
-					<a>
-						{dicas(cab.pagina)}
-					</a>
-				</li>
-			</ul>
-		</header>
+const Avatar = props => (
+	<img className = "Avatar"
+		src = {props.user.avatarUrl}
+		alt = {props.user.name}
+	/>
 )
-const element = <Cabecalho pagina = "0" />
+const UserInfo = props => (
+	<div className = "UserInfo">	
+		<Avatar user = {props.user}/>
+		<div className = "UserInfo-name">
+			{props.user.name}
+		</div>
+	</div>
+)
 
-render (
+const Comment = argumentos => {	
+	let props = argumentos.prop
+	return (
+	<div className="Comment">
+		<UserInfo user = {props.author}/>	
+		<div className="Comment-text">
+			{props.text}
+		</div>
+		<div className="Comment-date">
+			{formatDate(props.date)}
+		</div>
+	</div>
+)
+}
+
+const element = <Comment prop  = {{
+		author: {
+			avatarUrl: 'avatar.jpg',
+			name: 'Keven'
+		},
+		text: 'Estou aqui para comentar que gostei muito do que vi, parabéns!',
+		date: new Date()
+}} />
+
+render(
 	element,
 	document.getElementById('root')
 )
